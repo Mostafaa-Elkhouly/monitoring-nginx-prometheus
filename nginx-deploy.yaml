@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-configmap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
+data:
+  nginx.conf: |
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      server {
+        listen 80;
+        location /stub_status {
+          stub_status on;
+          access_log on;
+          allow all;  # Restrict access to localhost only
+        }
+
+        # Expose the default Nginx welcome page
+        location / {
+          root /usr/share/nginx/html;
+          index index.html;
+        }
+
+        # Additional server configurations can be added here if needed
+      }
+
+      access_log /var/log/nginx/access.log;  # Log all other access
+    }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: stub-status
+      protocol: TCP
+      port: 80
+      targetPort: 80
