@@ -93,7 +93,7 @@ serviceMonitor:
   path: /metrics
   # Set labels for the ServiceMonitor, use this to define your scrape label for Prometheus Operator
   additionalLabels: 
-    release: monitoring
+    release: my-prometheus
   # Set timeout for scrape
   timeout: 10s
   # Set of labels to transfer on the Kubernetes Service onto the target.

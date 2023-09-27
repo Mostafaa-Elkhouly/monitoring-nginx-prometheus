@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    release: monitoring
+    release: my-prometheus
   name: nginx-requests-alert
 spec:
   groups:

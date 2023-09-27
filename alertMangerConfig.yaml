@@ -3,7 +3,7 @@ kind: AlertmanagerConfig
 metadata:
   name: alertmanager-config
   labels:
-    release: monitoring
+    release: my-prometheus
 spec:
   route:
     groupBy: ['severity']
