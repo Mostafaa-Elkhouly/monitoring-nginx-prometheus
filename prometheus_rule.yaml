@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: monitoring
+  name: nginx-requests-alert
+spec:
+  groups:
+  - name: nginx-requests-alert.rules
+    rules:
+    - alert: NginxRequestCountAlert
+      expr: nginx_connections_accepted >= 30
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: Nginx Request Count Alert
+        description: The Nginx request count has reached 10.
+
