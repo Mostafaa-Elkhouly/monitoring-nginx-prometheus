@@ -1,4 +1,4 @@
-# Project Name
+# Monitoring nginx service with Prometheus and Grafana
 
 ## Table of Contents
 
